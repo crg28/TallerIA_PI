@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Buscar Película</h1>
+
+    <!-- Formulario con Bootstrap -->
+    <form method="POST" class="form-inline mb-4">
+        {% csrf_token %}
+        <div class="form-group mr-2 mb-3"> <!-- Añadido mb-3 para margen inferior -->
+            <label for="prompt" class="sr-only mb-3">Descripción de la película</label>
+            <input type="text" id="prompt" name="prompt" class="form-control" placeholder="Describe tu tipo de película" required>
+        </div>
+        <div class="form-group mb-3"> <!-- Añadido mb-3 para margen inferior -->
+            <button type="submit" class="btn btn-primary">Buscar Película</button>
+        </div>
+    </form>
+
+    <!-- Mostrar la película recomendada solo si está disponible -->
+
+    {% if pelicula %}
+    <div class="card mb-4">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ pelicula.image.url }}" class="card-img" alt="{{ pelicula.title }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pelicula.title }} ({{ pelicula.year }})</h5>
+                    <p class="card-text"><strong>Descripción:</strong> {{ pelicula.description }}</p>
+                    <p class="card-text"><strong>Género:</strong> {{ pelicula.genre }}</p>
+                    {% if pelicula.url %}
+                        <a href="{{ pelicula.url }}" class="btn btn-secondary" target="_blank">Ver más</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock content %}
